@@ -20,7 +20,6 @@
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Test PR
             if (!env.IsDevelopment())
             {
                 app.UseHttpsRedirection();
