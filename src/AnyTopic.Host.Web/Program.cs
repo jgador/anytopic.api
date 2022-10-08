@@ -1,4 +1,4 @@
-// using AnyTopic.Api.Hosting;
+using AnyTopic.Api.Hosting;
 
 namespace AnyTopic.Host.Web
 {
@@ -8,7 +8,7 @@ namespace AnyTopic.Host.Web
         {
             Console.Title = "AnyTopic Web Host";
 
-            // await AnyTopicApiHost.RunAsync<AspNetCoreApplicationHost>(args).ConfigureAwait(false);
+            await AnyTopicApiHost.RunAsync<AspNetCoreApplicationHost>(args).ConfigureAwait(false);
         }
     }
 }
