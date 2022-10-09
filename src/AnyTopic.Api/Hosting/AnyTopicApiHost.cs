@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AnyTopic.Api.Security.Claims;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +26,18 @@ namespace AnyTopic.Api.Hosting
             hostBuilder.ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.Configure(Configure);
+            });
+
+            hostBuilder.ConfigureServices(services =>
+            {
+                services.AddHttpContextAccessor();
+                services.AddSingleton<IClaimsPrincipalProvider, HttpContextClaimsPrincipalProvider>();
+
+                services.AddRouting(options =>
+                {
+                    options.LowercaseQueryStrings = true;
+                    options.LowercaseUrls = true;
+                });
             });
 
             hostBuilder.ConfigureServices(ConfigureServices);

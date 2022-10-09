@@ -1,5 +1,5 @@
-﻿using AnyTopic.Api;
-using AnyTopic.Api.Hosting;
+﻿using AnyTopic.Api.Hosting;
+using AnyTopic.Api.Hubs;
 
 namespace AnyTopic.Host.Web
 {
