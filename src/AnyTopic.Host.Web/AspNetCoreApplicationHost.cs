@@ -1,5 +1,6 @@
 ﻿using AnyTopic.Api.Hosting;
 using AnyTopic.Api.Hubs;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AnyTopic.Host.Web
 {
@@ -19,6 +20,10 @@ namespace AnyTopic.Host.Web
             app.UseRouting();
 
             app.UseCors();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

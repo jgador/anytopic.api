@@ -16,6 +16,11 @@ namespace AnyTopic.Api.Security.Claims
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public ClaimsPrincipal GetPrincipal() => _httpContextAccessor!.HttpContext!.User;
+        public ClaimsPrincipal GetPrincipal()
+        {
+            EnsureArg.IsNotNull(_httpContextAccessor.HttpContext, nameof(_httpContextAccessor.HttpContext));
+
+            return _httpContextAccessor.HttpContext!.User;
+        }
     }
 }

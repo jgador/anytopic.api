@@ -1,4 +1,5 @@
-﻿using AnyTopic.Api.Security.Claims;
+﻿using AnyTopic.Api.DependencyInjection;
+using AnyTopic.Api.Security.Claims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,14 @@ namespace AnyTopic.Api.Hosting
 
             var hostBuilder = Host.CreateDefaultBuilder(args);
 
+            hostBuilder.UseAnyTopicServiceProvider((context, options) =>
+            {
+                var isDevelopment = context.HostingEnvironment.IsDevelopment();
+
+                options.ValidateScopes = isDevelopment;
+                options.ValidateOnBuild = isDevelopment;
+            });
+
             var appHost = host.Build(hostBuilder);
 
             return appHost.RunAsync();
@@ -28,10 +37,11 @@ namespace AnyTopic.Api.Hosting
                 webBuilder.Configure(Configure);
             });
 
-            hostBuilder.ConfigureServices(services =>
+            hostBuilder.ConfigureServices((context, services) =>
             {
                 services.AddHttpContextAccessor();
                 services.AddSingleton<IClaimsPrincipalProvider, HttpContextClaimsPrincipalProvider>();
+                services.AddAzureB2CAuthentication(context.Configuration);
 
                 services.AddRouting(options =>
                 {

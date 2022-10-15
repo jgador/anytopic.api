@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace AnyTopic.Api.Mvc
 {
-    [Route("api/chat")]
+    [Route("api/messages")]
     [ApiController]
-    public class ChatController : ControllerBase
+    public class MessagesController : BaseController<MessagesController>
     {
         private readonly IHubContext<ChatHub, IChatHubClient> _hubContext;
-        public ChatController(IHubContext<ChatHub, IChatHubClient> hubContext)
+        public MessagesController(IHubContext<ChatHub, IChatHubClient> hubContext)
         {
             _hubContext = hubContext;
         }
@@ -22,7 +22,12 @@ namespace AnyTopic.Api.Mvc
         [HttpGet]
         public async Task GetAsync()
         {
-            await _hubContext.Clients.All.SendMessageAsync("Jesse", "Hello World");
+            var email = GetEmailClaim();
+
+            if (email != null)
+            {
+                await _hubContext.Clients.All.SendMessageAsync(email, "Hello World");
+            }
         }
     }
 }
