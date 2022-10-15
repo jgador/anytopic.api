@@ -1,10 +1,12 @@
 ﻿using AnyTopic.Api.DependencyInjection;
 using AnyTopic.Api.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace AnyTopic.Api.Hosting
 {
@@ -42,6 +44,7 @@ namespace AnyTopic.Api.Hosting
                 services.AddHttpContextAccessor();
                 services.AddSingleton<IClaimsPrincipalProvider, HttpContextClaimsPrincipalProvider>();
                 services.AddAzureB2CAuthentication(context.Configuration);
+                services.AddMediatR(Assembly.GetExecutingAssembly());
 
                 services.AddRouting(options =>
                 {

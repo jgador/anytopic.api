@@ -5,6 +5,6 @@ namespace AnyTopic.Api.Hubs
     public interface IChatHubClient
     {
         [HubMethodName("receiveMessage")]
-        public Task SendMessageAsync(string user, string message);
+        public Task SendMessageAsync(string senderEmail, string message);
     }
 }
