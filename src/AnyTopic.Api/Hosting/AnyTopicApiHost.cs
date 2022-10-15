@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AnyTopic.Api.DependencyInjection;
+using AnyTopic.Api.Security.Claims;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace AnyTopic.Api.Hosting
 {
@@ -15,6 +19,14 @@ namespace AnyTopic.Api.Hosting
 
             var hostBuilder = Host.CreateDefaultBuilder(args);
 
+            hostBuilder.UseAnyTopicServiceProvider((context, options) =>
+            {
+                var isDevelopment = context.HostingEnvironment.IsDevelopment();
+
+                options.ValidateScopes = isDevelopment;
+                options.ValidateOnBuild = isDevelopment;
+            });
+
             var appHost = host.Build(hostBuilder);
 
             return appHost.RunAsync();
@@ -25,6 +37,20 @@ namespace AnyTopic.Api.Hosting
             hostBuilder.ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.Configure(Configure);
+            });
+
+            hostBuilder.ConfigureServices((context, services) =>
+            {
+                services.AddHttpContextAccessor();
+                services.AddSingleton<IClaimsPrincipalProvider, HttpContextClaimsPrincipalProvider>();
+                services.AddAzureB2CAuthentication(context.Configuration);
+                services.AddMediatR(Assembly.GetExecutingAssembly());
+
+                services.AddRouting(options =>
+                {
+                    options.LowercaseQueryStrings = true;
+                    options.LowercaseUrls = true;
+                });
             });
 
             hostBuilder.ConfigureServices(ConfigureServices);
