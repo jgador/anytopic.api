@@ -4,6 +4,6 @@ namespace AnyTopic.Api.Models
 {
     public interface IApiResponse
     {
-        JsonResult? JsonResult { get; set; }
+        IActionResult? ActionResult { get; set; }
     }
 }

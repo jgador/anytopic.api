@@ -1,12 +1,7 @@
 ﻿using AnyTopic.Api.Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnyTopic.Api.Mvc
 {
@@ -29,7 +24,7 @@ namespace AnyTopic.Api.Mvc
 
                 var response = await Mediator.Send(request, cancellationToken).ConfigureAwait(false);
 
-                return response.JsonResult;
+                return response.ActionResult;
             }
         }
     }

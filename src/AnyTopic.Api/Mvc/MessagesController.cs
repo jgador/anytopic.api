@@ -16,6 +16,7 @@ namespace AnyTopic.Api.Mvc
     public class MessagesController : BaseController<MessagesController>
     {
         private readonly IHubContext<ChatHub, IChatHubClient> _hubContext;
+
         public MessagesController([NotNull] IMediator mediator, IHubContext<ChatHub, IChatHubClient> hubContext)
             : base(mediator)
         {
