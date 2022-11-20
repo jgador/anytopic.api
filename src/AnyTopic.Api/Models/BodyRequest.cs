@@ -4,10 +4,10 @@ using System.Security.Claims;
 
 namespace AnyTopic.Api.Models
 {
-    public abstract class FromBodyRequest<TResponse> : IFromBodyRequest<TResponse>
+    public abstract class BodyRequest<TResponse> : IBodyRequest<TResponse>
         where TResponse : IApiResponse
     {
-        protected FromBodyRequest([NotNull] Stream stream, [NotNull] ClaimsPrincipal user)
+        protected BodyRequest([NotNull] Stream stream, [NotNull] ClaimsPrincipal user)
         {
             EnsureArg.IsNotNull(stream, nameof(stream));
             EnsureArg.IsNotNull(user, nameof(user));

@@ -10,12 +10,12 @@ using System.Text.Json.Serialization;
 
 namespace AnyTopic.Api.Handlers
 {
-    public abstract class FromBodyHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
-        where TRequest : class, IFromBodyRequest<TResponse>
+    public abstract class BodyRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
+        where TRequest : class, IBodyRequest<TResponse>
         where TResponse : IApiResponse
     {
         private static readonly JsonSerializerOptions ResponseSerializerOptions;
-        private static readonly ILogger<FromBodyHandler<TRequest, TResponse>> Logger = AnyTopicLoggerFactory.CreateLogger<FromBodyHandler<TRequest, TResponse>>();
+        private static readonly ILogger<BodyRequestHandler<TRequest, TResponse>> Logger = AnyTopicLoggerFactory.CreateLogger<BodyRequestHandler<TRequest, TResponse>>();
 
         public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 
@@ -71,7 +71,7 @@ namespace AnyTopic.Api.Handlers
             return response;
         }
 
-        static FromBodyHandler()
+        static BodyRequestHandler()
         {
             if (ResponseSerializerOptions == null)
             {

@@ -12,7 +12,7 @@ using static AnyTopic.Api.Handlers.RoomsHandler;
 
 namespace AnyTopic.Api.Handlers
 {
-    public class RoomsHandler : FromBodyHandler<Request, Response>
+    public class RoomsHandler : BodyRequestHandler<NewRoomRequest, Response>
     {
         private readonly IDbContextFactory<AnyTopicContext> _dbContextFactory;
 
@@ -23,7 +23,7 @@ namespace AnyTopic.Api.Handlers
             _dbContextFactory = dbContextFactory;
         }
 
-        public override async Task<Response> Handle(Request request, CancellationToken cancellationToken)
+        public override async Task<Response> Handle(NewRoomRequest request, CancellationToken cancellationToken)
         {
             var requestDto = await DeserializeAsync<NewRoomDto>(request.Stream).ConfigureAwait(false);
 
@@ -54,9 +54,9 @@ namespace AnyTopic.Api.Handlers
             }
         }
 
-        public class Request : FromBodyRequest<Response>
+        public class NewRoomRequest : BodyRequest<Response>
         {
-            public Request([NotNull] Stream stream, [NotNull] ClaimsPrincipal user)
+            public NewRoomRequest([NotNull] Stream stream, [NotNull] ClaimsPrincipal user)
                 : base(stream, user)
             {
             }

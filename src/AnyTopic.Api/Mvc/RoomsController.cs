@@ -20,7 +20,7 @@ namespace AnyTopic.Api.Mvc
         {
             using (var stream = Request.BodyReader.AsStream(true))
             {
-                var request = new RoomsHandler.Request(stream, User);
+                var request = new RoomsHandler.NewRoomRequest(stream, User);
 
                 var response = await Mediator.Send(request, cancellationToken).ConfigureAwait(false);
 
